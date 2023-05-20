@@ -3,4 +3,10 @@
     <string name="bottom_nav_home">Home</string>
     <string name="bottom_nav_scan">Scan</string>
     <string name="bottom_nav_profile">Profile</string>
+    <string name="login">Masuk</string>
+    <string name="loginDesc">Masukan email dan password</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="tidak_punya_akun">Tidak punya akun?</string>
+    <string name="daftar">Daftar</string>
 </resources>
