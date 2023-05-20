@@ -35,22 +35,8 @@ class MyButton : AppCompatButton {
         textSize = 20f
         gravity = Gravity.CENTER
         text = if(isEnabled) "Submit" else "Isi Dulu"
-
-//        text = if (isEnabled) {
-//            // Cek jenis halaman activity
-//            val activity = context as Activity
-//            val activityName = activity::class.java.simpleName
-//            if (activityName == "LoginActivity") {
-//                "Masuk"
-//            } else if (activityName == "RegisterActivity") {
-//                "Buat Akun"
-//            } else {
-//                "Submit"
-//            }
-//        } else {
-//            "Isi Dulu"
-//        }
     }
+    
     private fun init() {
         txtColor = ContextCompat.getColor(context, android.R.color.background_light)
         enabledBackground = ContextCompat.getDrawable(context, R.drawable.bg_button) as Drawable
