@@ -9,4 +9,9 @@
     <string name="password">Password</string>
     <string name="tidak_punya_akun">Tidak punya akun?</string>
     <string name="daftar">Daftar</string>
+    <string name="name">Name</string>
+    <string name="register">Buat Akun</string>
+    <string name="registerDesc">Masukan data untuk membuat akun</string>
+    <string name="phone_number">Nomor Telepon</string>
+    <string name="sudah_punya_akun">Sudah punya akun?</string>
 </resources>
