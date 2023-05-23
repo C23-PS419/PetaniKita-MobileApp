@@ -18,9 +18,8 @@ class ApiConfig {
             val client = OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
                 .build()
-            //TODO baseURL
             val retrofit = Retrofit.Builder()
-                .baseUrl("10.0.2.2:8000/api/")
+                .baseUrl(Endpoints.EMULATOR_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
