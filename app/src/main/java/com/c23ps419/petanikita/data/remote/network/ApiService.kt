@@ -1,7 +1,7 @@
-package com.c23ps419.petanikita.network
+package com.c23ps419.petanikita.data.remote.network
 
-import com.c23ps419.petanikita.data.response.LoginResponse
-import com.c23ps419.petanikita.data.response.RegisterResponse
+import com.c23ps419.petanikita.data.remote.response.LoginResponse
+import com.c23ps419.petanikita.data.remote.response.RegisterResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST

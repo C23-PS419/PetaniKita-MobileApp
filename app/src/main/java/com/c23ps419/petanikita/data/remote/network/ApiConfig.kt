@@ -1,4 +1,4 @@
-package com.c23ps419.petanikita.network
+package com.c23ps419.petanikita.data.remote.network
 
 import androidx.viewbinding.BuildConfig
 import okhttp3.OkHttpClient
