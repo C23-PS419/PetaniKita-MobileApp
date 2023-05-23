@@ -4,10 +4,8 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.text.Editable
-import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Patterns
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
@@ -26,7 +24,11 @@ class MyEditText : AppCompatEditText, View.OnTouchListener {
         init()
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         init()
     }
 
@@ -36,16 +38,19 @@ class MyEditText : AppCompatEditText, View.OnTouchListener {
     }
 
     private fun init() {
-        clearButtonImage = ContextCompat.getDrawable(context, R.drawable.ic_close_black_24dp) as Drawable
+        clearButtonImage =
+            ContextCompat.getDrawable(context, R.drawable.ic_close_black_24dp) as Drawable
         setOnTouchListener(this)
 
         addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
                 // Do nothing.
             }
+
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (s.toString().isNotEmpty()) showClearButton() else hideClearButton()
             }
+
             override fun afterTextChanged(s: Editable) {
                 // Do nothing
             }
@@ -55,6 +60,7 @@ class MyEditText : AppCompatEditText, View.OnTouchListener {
     private fun showClearButton() {
         setButtonDrawables(endOfTheText = clearButtonImage)
     }
+
     private fun hideClearButton() {
         setButtonDrawables()
     }
@@ -64,7 +70,7 @@ class MyEditText : AppCompatEditText, View.OnTouchListener {
         topOfTheText: Drawable? = null,
         endOfTheText: Drawable? = null,
         bottomOfTheText: Drawable? = null
-    ){
+    ) {
         setCompoundDrawablesWithIntrinsicBounds(
             startOfTheText,
             topOfTheText,
@@ -92,14 +98,16 @@ class MyEditText : AppCompatEditText, View.OnTouchListener {
             if (isClearButtonClicked) {
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        clearButtonImage = ContextCompat.getDrawable(context,
+                        clearButtonImage = ContextCompat.getDrawable(
+                            context,
                             R.drawable.ic_close_black_24dp
                         ) as Drawable
                         showClearButton()
                         return true
                     }
                     MotionEvent.ACTION_UP -> {
-                        clearButtonImage = ContextCompat.getDrawable(context,
+                        clearButtonImage = ContextCompat.getDrawable(
+                            context,
                             R.drawable.ic_close_black_24dp
                         ) as Drawable
                         when {
