@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.c23ps419.petanikita.di.Injection
 import com.c23ps419.petanikita.ui.login.LoginViewModel
+import com.c23ps419.petanikita.ui.register.RegisterViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory(): ViewModelProvider.Factory {
@@ -11,6 +12,9 @@ class ViewModelFactory(): ViewModelProvider.Factory {
         return when {
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                 LoginViewModel(Injection.provideRepository()) as T
+            }
+            modelClass.isAssignableFrom(RegisterViewModel::class.java) -> {
+                RegisterViewModel(Injection.provideRepository()) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel Class")
         }

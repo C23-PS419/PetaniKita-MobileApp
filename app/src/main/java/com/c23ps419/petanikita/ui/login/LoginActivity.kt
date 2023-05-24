@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import com.c23ps419.petanikita.data.Result
 import com.c23ps419.petanikita.databinding.ActivityLoginBinding
 import com.c23ps419.petanikita.ui.mainhome.MainActivity
+import com.c23ps419.petanikita.ui.register.RegisterActivity
 import com.c23ps419.petanikita.utils.ViewModelFactory
 
 class LoginActivity : AppCompatActivity() {
@@ -23,6 +24,12 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _activityLoginBinding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(loginBinding?.root)
+
+        loginBinding?.tvMasuk?.setOnClickListener {
+            val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         loginBinding?.myButton?.setOnClickListener {
             val email = loginBinding?.edLoginEmail?.text.toString()

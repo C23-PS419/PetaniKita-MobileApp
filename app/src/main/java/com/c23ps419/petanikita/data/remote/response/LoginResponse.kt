@@ -11,5 +11,8 @@ data class LoginResponse(
     val token: String? = null,
 
     @field:SerializedName("message")
-    val message: String? = null
+    val message: String? = null,
+
+    @field:SerializedName("errors")
+    val errors: Map<String, String>? = null
 ) : Parcelable
