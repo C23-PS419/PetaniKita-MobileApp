@@ -3,6 +3,7 @@ package com.c23ps419.petanikita.ui.register
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.c23ps419.petanikita.data.Result
@@ -58,7 +59,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun showLoading(state: Boolean) {
-
+        registerBinding?.progressCircular?.visibility = if (state) View.VISIBLE else View.INVISIBLE
     }
 
     override fun onDestroy() {

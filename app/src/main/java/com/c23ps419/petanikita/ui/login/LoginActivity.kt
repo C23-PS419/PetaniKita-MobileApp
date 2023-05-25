@@ -3,6 +3,7 @@ package com.c23ps419.petanikita.ui.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.c23ps419.petanikita.data.Result
@@ -61,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun showLoading(state: Boolean) {
-        //TODO implementing this method and adding loading in xml
+        loginBinding?.progressCircular?.visibility = if (state) View.VISIBLE else View.INVISIBLE
     }
 
     override fun onDestroy() {
