@@ -34,9 +34,10 @@ class RegisterActivity : AppCompatActivity() {
         registerBinding?.myButton?.setOnClickListener {
             val name = registerBinding?.edRegisterName?.text.toString()
             val email = registerBinding?.edRegisterEmail?.text.toString()
+            val phone = registerBinding?.edRegisterPhone?.text.toString()
             val password = registerBinding?.edRegisterPassword?.text.toString()
 
-            viewModel.userRegister(name, email, password).observe(this){result ->
+            viewModel.userRegister(name, email, phone, password).observe(this){result ->
                 if (result != null) {
                     when (result) {
                         is Result.Loading -> {
@@ -44,6 +45,7 @@ class RegisterActivity : AppCompatActivity() {
                         }
                         is Result.Success -> {
                             showLoading(false)
+                            Toast.makeText(this, "Register Success", Toast.LENGTH_LONG).show()
                             val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
                             startActivity(intent)
                             finish()

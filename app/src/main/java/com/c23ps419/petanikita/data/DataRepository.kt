@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.c23ps419.petanikita.data.remote.network.ApiService
 import com.c23ps419.petanikita.data.remote.response.LoginResponse
-import com.c23ps419.petanikita.data.remote.response.RegisterResponse
+import retrofit2.Response
 
 class DataRepository(private val apiService: ApiService) {
     fun postLogin(email: String, password: String): LiveData<Result<LoginResponse>> = liveData {
@@ -18,10 +18,10 @@ class DataRepository(private val apiService: ApiService) {
         }
     }
 
-    fun postRegister(name: String, email: String, password: String): LiveData<Result<RegisterResponse>> = liveData {
+    fun postRegister(name: String, email: String, phone: String, password: String): LiveData<Result<Response<Unit>>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.userRegister(name, email, password)
+            val response = apiService.userRegister(name, email, phone, password)
             emit(Result.Success(response))
         } catch (e: Exception){
             emit(Result.Error(e.message.toString()))
