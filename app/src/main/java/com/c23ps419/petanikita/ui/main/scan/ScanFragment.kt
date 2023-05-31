@@ -1,4 +1,4 @@
-package com.c23ps419.petanikita.ui.scan
+package com.c23ps419.petanikita.ui.main.scan
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

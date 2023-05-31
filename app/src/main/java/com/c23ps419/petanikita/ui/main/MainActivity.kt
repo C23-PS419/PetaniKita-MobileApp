@@ -1,13 +1,13 @@
-package com.c23ps419.petanikita.ui.mainhome
+package com.c23ps419.petanikita.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.c23ps419.petanikita.R
 import com.c23ps419.petanikita.databinding.ActivityMainBinding
-import com.c23ps419.petanikita.ui.home.HomeFragment
-import com.c23ps419.petanikita.ui.profile.ProfileFragment
-import com.c23ps419.petanikita.ui.scan.ScanFragment
+import com.c23ps419.petanikita.ui.main.home.HomeFragment
+import com.c23ps419.petanikita.ui.main.profile.ProfileFragment
+import com.c23ps419.petanikita.ui.main.scan.ScanFragment
 
 class MainActivity : AppCompatActivity() {
 
