@@ -3,7 +3,9 @@ package com.c23ps419.petanikita.ui.register
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.c23ps419.petanikita.data.Result
@@ -45,19 +47,27 @@ class RegisterActivity : AppCompatActivity() {
                         }
                         is Result.Success -> {
                             showLoading(false)
-                            Toast.makeText(this, "Register Success", Toast.LENGTH_LONG).show()
+                            showCenteredToast("Pendaftaran berhasil.\nSilahkan masuk menggunakan akun anda.")
                             val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
                             startActivity(intent)
                             finish()
                         }
                         is Result.Error -> {
                             showLoading(false)
-                            Toast.makeText(this, result.error, Toast.LENGTH_LONG).show()
+                            showCenteredToast(result.error)
                         }
                     }
                 }
             }
         }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun showCenteredToast(text: String){
+        val toast = Toast.makeText(this, text, Toast.LENGTH_LONG)
+        val v: TextView? = toast.view?.findViewById(android.R.id.message)
+        if( v != null) v.gravity = Gravity.CENTER
+        toast.show()
     }
 
     private fun showLoading(state: Boolean) {
