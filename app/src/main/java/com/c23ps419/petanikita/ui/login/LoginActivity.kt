@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import com.c23ps419.petanikita.data.Result
 import com.c23ps419.petanikita.databinding.ActivityLoginBinding
-import com.c23ps419.petanikita.ui.mainhome.MainActivity
+import com.c23ps419.petanikita.ui.main.MainActivity
 import com.c23ps419.petanikita.ui.register.RegisterActivity
 import com.c23ps419.petanikita.utils.ViewModelFactory
 

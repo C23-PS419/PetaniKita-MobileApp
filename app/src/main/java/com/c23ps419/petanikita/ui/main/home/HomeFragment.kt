@@ -1,4 +1,4 @@
-package com.c23ps419.petanikita.ui.home
+package com.c23ps419.petanikita.ui.main.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

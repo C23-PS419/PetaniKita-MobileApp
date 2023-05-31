@@ -1,4 +1,4 @@
-package com.c23ps419.petanikita.ui.profile
+package com.c23ps419.petanikita.ui.main.profile
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
