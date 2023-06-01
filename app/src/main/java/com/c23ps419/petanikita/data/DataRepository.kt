@@ -41,18 +41,16 @@ class DataRepository(private val apiService: ApiService, private val userPrefere
     }
 
     fun getLogout(): LiveData<Result<LogoutResponse>> = liveData {
-
         emit(Result.Loading)
-        try {
-            val token = runBlocking {
-                userPreferences.getUserToken().first()
-            }
-            val response = apiService.userLogout(token)
-            runBlocking {
-                userPreferences.onUserLogout()
-                Log.d("getLogout", "saveUserLoginData")
-            }
 
+        val token = runBlocking {
+            userPreferences.onUserLogout()
+            Log.d("getLogout", "saveUserLoginData")
+            return@runBlocking userPreferences.getUserToken().first()
+        }
+
+        try {
+            val response = apiService.userLogout(token)
             emit(Result.Success(response))
         } catch (e: Exception){
             emit(Result.Error(e.message.toString()))

@@ -15,5 +15,6 @@
     <string name="phone_number">Nomor Telepon</string>
     <string name="sudah_punya_akun">Sudah punya akun?</string>
     <string name="logout">logout</string>
+    <string name="splash_screen">Splash Screen</string>
 
 </resources>
