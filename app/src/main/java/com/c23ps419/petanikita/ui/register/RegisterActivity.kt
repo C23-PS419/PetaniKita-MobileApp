@@ -1,5 +1,6 @@
 package com.c23ps419.petanikita.ui.register
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,10 +9,16 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import com.c23ps419.petanikita.data.Result
+import com.c23ps419.petanikita.data.local.datastore.UserPreferences
 import com.c23ps419.petanikita.databinding.ActivityRegisterBinding
 import com.c23ps419.petanikita.ui.login.LoginActivity
 import com.c23ps419.petanikita.utils.ViewModelFactory
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user")
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -19,7 +26,7 @@ class RegisterActivity : AppCompatActivity() {
     private val registerBinding get() = _activityRegisterBinding
 
     private val viewModel: RegisterViewModel by viewModels{
-        ViewModelFactory()
+        ViewModelFactory(UserPreferences.getInstance(dataStore))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

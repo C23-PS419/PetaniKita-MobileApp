@@ -1,16 +1,23 @@
 package com.c23ps419.petanikita.ui.login
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import com.c23ps419.petanikita.data.Result
+import com.c23ps419.petanikita.data.local.datastore.UserPreferences
 import com.c23ps419.petanikita.databinding.ActivityLoginBinding
 import com.c23ps419.petanikita.ui.main.MainActivity
 import com.c23ps419.petanikita.ui.register.RegisterActivity
 import com.c23ps419.petanikita.utils.ViewModelFactory
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user")
 
 class LoginActivity : AppCompatActivity() {
 
@@ -18,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
     private val loginBinding get() = _activityLoginBinding
 
     private val viewModel: LoginViewModel by viewModels{
-        ViewModelFactory()
+        ViewModelFactory(UserPreferences.getInstance(dataStore))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
