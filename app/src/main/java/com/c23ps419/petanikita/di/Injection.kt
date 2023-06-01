@@ -6,7 +6,7 @@ import com.c23ps419.petanikita.data.remote.network.ApiConfig
 
 object Injection {
     fun provideRepository(userPreferences: UserPreferences): DataRepository {
-        val apiService = ApiConfig.getApiService()
+        val apiService = ApiConfig.getApiService(userPreferences)
         return DataRepository(apiService, userPreferences)
     }
 }

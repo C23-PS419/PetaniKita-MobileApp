@@ -8,7 +8,6 @@ import com.c23ps419.petanikita.data.remote.network.ApiService
 import com.c23ps419.petanikita.data.remote.response.LoginResponse
 import com.c23ps419.petanikita.data.remote.response.LogoutResponse
 import com.c23ps419.petanikita.data.remote.response.RegisterResponse
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
 class DataRepository(private val apiService: ApiService, private val userPreferences: UserPreferences) {
@@ -43,14 +42,13 @@ class DataRepository(private val apiService: ApiService, private val userPrefere
     fun getLogout(): LiveData<Result<LogoutResponse>> = liveData {
         emit(Result.Loading)
 
-        val token = runBlocking {
+        runBlocking {
             userPreferences.onUserLogout()
             Log.d("getLogout", "saveUserLoginData")
-            return@runBlocking userPreferences.getUserToken().first()
         }
 
         try {
-            val response = apiService.userLogout(token)
+            val response = apiService.userLogout()
             emit(Result.Success(response))
         } catch (e: Exception){
             emit(Result.Error(e.message.toString()))
