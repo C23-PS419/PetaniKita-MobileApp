@@ -1,27 +1,40 @@
 package com.c23ps419.petanikita.data.remote.network
 
-import androidx.viewbinding.BuildConfig
+import com.c23ps419.petanikita.data.local.datastore.UserPreferences
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiConfig {
+
     companion object {
-        fun getApiService(): ApiService {
+        private fun getInterceptor(token: String?): OkHttpClient{
             val loggingInterceptor =
-                if (BuildConfig.DEBUG) {
-                    HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-                } else {
-                    HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-                }
-            val client = OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
-                .build()
+                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+
+            return if (token.isNullOrEmpty()) {
+                OkHttpClient.Builder()
+                    .addInterceptor(loggingInterceptor)
+                    .build()
+            } else {
+                OkHttpClient.Builder()
+                    .addInterceptor(AuthInterceptor(token))
+                    .addInterceptor(loggingInterceptor)
+                    .build()
+            }
+        }
+        fun getApiService(userPreferences: UserPreferences): ApiService {
+            val token = runBlocking {
+                userPreferences.getUserToken().first()
+            }
+
             val retrofit = Retrofit.Builder()
                 .baseUrl(Endpoints.EMULATOR_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
+                .client(getInterceptor(token))
                 .build()
             return retrofit.create(ApiService::class.java)
         }

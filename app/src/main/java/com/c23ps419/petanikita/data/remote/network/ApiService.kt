@@ -6,7 +6,6 @@ import com.c23ps419.petanikita.data.remote.response.RegisterResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
@@ -33,7 +32,5 @@ interface ApiService {
 
     @Headers("Accept: application/json")
     @GET("auth/logout")
-    suspend fun userLogout(
-        @Header("Authorization") auth: String
-    ): LogoutResponse
+    suspend fun userLogout(): LogoutResponse
 }
