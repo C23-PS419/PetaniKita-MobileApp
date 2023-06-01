@@ -6,9 +6,10 @@ import androidx.lifecycle.liveData
 import com.c23ps419.petanikita.data.local.datastore.UserPreferences
 import com.c23ps419.petanikita.data.remote.network.ApiService
 import com.c23ps419.petanikita.data.remote.response.LoginResponse
+import com.c23ps419.petanikita.data.remote.response.LogoutResponse
 import com.c23ps419.petanikita.data.remote.response.RegisterResponse
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import retrofit2.Response
 
 class DataRepository(private val apiService: ApiService, private val userPreferences: UserPreferences) {
     fun postLogin(email: String, password: String): LiveData<Result<LoginResponse>> = liveData {
@@ -20,7 +21,7 @@ class DataRepository(private val apiService: ApiService, private val userPrefere
             runBlocking {
                 if (response.token != null){
                     userPreferences.saveUserLoginData(response.token, true)
-                    Log.d("postLogin","userPreferences ${response.token}")
+                    Log.d("postLogin","saveUserLoginData ${response.token}")
                 }
             }
             emit(Result.Success(response))
@@ -39,13 +40,20 @@ class DataRepository(private val apiService: ApiService, private val userPrefere
         }
     }
 
-    fun getLogout(token: String): LiveData<Result<Response<Unit>>> = liveData {
+    fun getLogout(): LiveData<Result<LogoutResponse>> = liveData {
+
         emit(Result.Loading)
         try {
-            val response = apiService.userLogout(token)
-            if (response.isSuccessful){
-                emit(Result.Success(response))
+            val token = runBlocking {
+                userPreferences.getUserToken().first()
             }
+            val response = apiService.userLogout(token)
+            runBlocking {
+                userPreferences.onUserLogout()
+                Log.d("getLogout", "saveUserLoginData")
+            }
+
+            emit(Result.Success(response))
         } catch (e: Exception){
             emit(Result.Error(e.message.toString()))
         }

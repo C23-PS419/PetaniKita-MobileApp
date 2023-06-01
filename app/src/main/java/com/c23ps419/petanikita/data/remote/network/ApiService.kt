@@ -1,8 +1,8 @@
 package com.c23ps419.petanikita.data.remote.network
 
 import com.c23ps419.petanikita.data.remote.response.LoginResponse
+import com.c23ps419.petanikita.data.remote.response.LogoutResponse
 import com.c23ps419.petanikita.data.remote.response.RegisterResponse
-import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -31,8 +31,9 @@ interface ApiService {
         @Field("password") password: String
     ): RegisterResponse
 
+    @Headers("Accept: application/json")
     @GET("auth/logout")
     suspend fun userLogout(
         @Header("Authorization") auth: String
-    ): Response<Unit>
+    ): LogoutResponse
 }

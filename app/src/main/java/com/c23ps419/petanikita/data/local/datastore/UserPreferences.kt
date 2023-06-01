@@ -34,6 +34,13 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
         }
     }
 
+    suspend fun onUserLogout(){
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.USER_TOKEN] = ""
+            preferences[PreferencesKeys.USER_SESSION] = false
+        }
+    }
+
     companion object{
         @Volatile
         private var userPreferences: UserPreferences? = null
