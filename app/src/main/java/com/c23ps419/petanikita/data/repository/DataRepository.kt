@@ -7,7 +7,6 @@ import com.c23ps419.petanikita.data.Result
 import com.c23ps419.petanikita.data.local.datastore.UserPreferences
 import com.c23ps419.petanikita.data.remote.network.ApiService
 import com.c23ps419.petanikita.data.remote.response.LoginResponse
-import com.c23ps419.petanikita.data.remote.response.LogoutResponse
 import com.c23ps419.petanikita.data.remote.response.RegisterResponse
 import kotlinx.coroutines.runBlocking
 
@@ -34,22 +33,6 @@ class DataRepository(private val apiService: ApiService, private val userPrefere
         emit(Result.Loading)
         try {
             val response = apiService.userRegister(name, email, phone, password)
-            emit(Result.Success(response))
-        } catch (e: Exception){
-            emit(Result.Error(e.message.toString()))
-        }
-    }
-
-    fun getLogout(): LiveData<Result<LogoutResponse>> = liveData {
-        emit(Result.Loading)
-
-        runBlocking {
-            userPreferences.onUserLogout()
-            Log.d("getLogout", "saveUserLoginData")
-        }
-
-        try {
-            val response = apiService.userLogout()
             emit(Result.Success(response))
         } catch (e: Exception){
             emit(Result.Error(e.message.toString()))
