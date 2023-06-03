@@ -1,8 +1,9 @@
-package com.c23ps419.petanikita.data
+package com.c23ps419.petanikita.data.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import com.c23ps419.petanikita.data.Result
 import com.c23ps419.petanikita.data.local.datastore.UserPreferences
 import com.c23ps419.petanikita.data.remote.network.ApiService
 import com.c23ps419.petanikita.data.remote.response.LoginResponse
