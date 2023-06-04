@@ -71,13 +71,13 @@ class ProfileFragment : Fragment() {
 
     private fun showProfile(user: User?){
         user?.let {
-            profileBinding?.tvProfileName?.text = (if (!it.name.isNullOrEmpty()) it.name else R.string.name).toString()
-            profileBinding?.tvProfileEmail?.text = (if (!it.email.isNullOrEmpty()) it.email else R.string.email).toString()
-            profileBinding?.tvProfilePhone?.text = (if (!it.phone.isNullOrEmpty()) it.phone else R.string.phone_number).toString()
+            profileBinding?.profileName?.text = (if (!it.name.isNullOrEmpty()) it.name else R.string.name).toString()
+            profileBinding?.profileEmail?.text = (if (!it.email.isNullOrEmpty()) it.email else R.string.email).toString()
+            profileBinding?.profilePhone?.text = (if (!it.phone.isNullOrEmpty()) it.phone else R.string.phone_number).toString()
         }
-        profileBinding?.tvProfileName?.isVisible = true
-        profileBinding?.tvProfileEmail?.isVisible = true
-        profileBinding?.tvProfilePhone?.isVisible = true
+        profileBinding?.profileName?.isVisible = true
+        profileBinding?.profileEmail?.isVisible = true
+        profileBinding?.profilePhone?.isVisible = true
     }
 
     private fun showLoading(state: Boolean) {
