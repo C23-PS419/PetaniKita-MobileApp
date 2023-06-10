@@ -28,5 +28,7 @@
     <string name="open_folder">Open Folder</string>
     <string name="open_camera">Open Camera</string>
     <string name="choose_image">Ambil gambar melalui kamera atau pilih dari galeri</string>
+    <string name="disease">Disease</string>
+    <string name="textview_prob">Prob%</string>
 
 </resources>
