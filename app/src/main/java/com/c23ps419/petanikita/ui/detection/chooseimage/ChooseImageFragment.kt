@@ -2,6 +2,8 @@ package com.c23ps419.petanikita.ui.detection.chooseimage
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -11,13 +13,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.c23ps419.petanikita.R
 import com.c23ps419.petanikita.databinding.FragmentChooseImageBinding
+import com.c23ps419.petanikita.ml.RldcMobilenetV11Default1
+import com.c23ps419.petanikita.ui.detection.Disease
 import com.c23ps419.petanikita.ui.detection.detectionresult.DetectionResultFragment
 import com.c23ps419.petanikita.utils.createCustomTempFile
 import com.c23ps419.petanikita.utils.uriToFile
+import org.tensorflow.lite.support.image.TensorImage
 import java.io.File
 
 class ChooseImageFragment : Fragment() {
@@ -34,7 +41,8 @@ class ChooseImageFragment : Fragment() {
             val myFile = File(currentPhotoPath)
             imageFile = myFile
             myFile.let { file ->
-                chooseImageBinding?.detectionImage?.setImageBitmap(BitmapFactory.decodeFile(file.path))
+                val bitmap = BitmapFactory.decodeFile(file.path)
+                chooseImageBinding?.detectionImage?.setImageBitmap(bitmap)
                 chooseImageBinding?.detectionImage?.visibility = View.VISIBLE
                 chooseImageBinding?.buttonStartDetection?.visibility = View.VISIBLE
                 chooseImageBinding?.tvDetectionImage?.visibility = View.INVISIBLE
@@ -50,11 +58,20 @@ class ChooseImageFragment : Fragment() {
             selectedImg.let { uri ->
                 val myFile = uriToFile(uri, requireContext())
                 imageFile = myFile
-                chooseImageBinding?.detectionImage?.setImageURI(uri)
+                val bitmap = BitmapFactory.decodeStream(requireActivity().contentResolver.openInputStream(uri))
+                chooseImageBinding?.detectionImage?.setImageBitmap(bitmap)
+                chooseImageBinding?.detectionImage?.visibility = View.VISIBLE
+                chooseImageBinding?.buttonStartDetection?.visibility = View.VISIBLE
+                chooseImageBinding?.tvDetectionImage?.visibility = View.INVISIBLE
             }
-            chooseImageBinding?.detectionImage?.visibility = View.VISIBLE
-            chooseImageBinding?.buttonStartDetection?.visibility = View.VISIBLE
-            chooseImageBinding?.tvDetectionImage?.visibility = View.INVISIBLE
+        }
+    }
+
+    private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()){granted ->
+        if (granted) {
+            startTakePhoto()
+        } else {
+            Toast.makeText(requireContext(), "Permission Denied !! Try again", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -80,7 +97,12 @@ class ChooseImageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         chooseImageBinding?.openCamera?.setOnClickListener{
-            startTakePhoto()
+            if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED) {
+                startTakePhoto()
+            } else {
+                requestPermission.launch(android.Manifest.permission.CAMERA)
+            }
         }
 
         chooseImageBinding?.openGallery?.setOnClickListener {
@@ -88,10 +110,11 @@ class ChooseImageFragment : Fragment() {
         }
 
         chooseImageBinding?.buttonStartDetection?.setOnClickListener {
-
             imageFile?.let { file ->
-                val detectionResultFragment = DetectionResultFragment.newInstance(file)
+                val bitmap = BitmapFactory.decodeFile(file.path)
+                val detectionResult = outputGenerator(bitmap)
 
+                val detectionResultFragment = DetectionResultFragment.newInstance(file, detectionResult)
                 val fragmentManager = requireActivity().supportFragmentManager
                 val fragmentTransaction = fragmentManager.beginTransaction()
                 fragmentTransaction.replace(R.id.frame_container_detection, detectionResultFragment)
@@ -124,6 +147,29 @@ class ChooseImageFragment : Fragment() {
         intent.type = "image/*"
         val chooser = Intent.createChooser(intent, "Choose a Picture")
         launcherIntentGallery.launch(chooser)
+    }
+
+
+    private fun outputGenerator(decodeFile: Bitmap): ArrayList<Disease> {
+        val model = RldcMobilenetV11Default1.newInstance(requireContext())
+
+        val bitmap = decodeFile.copy(Bitmap.Config.ARGB_8888, true)
+        val image = TensorImage.fromBitmap(bitmap)
+
+        val outputs = model.process(image)
+
+        val sortedOutput = outputs.probabilityAsCategoryList
+            .apply {sortByDescending { it.score } }
+            .map {
+                Disease(
+                    it.label,
+                    it.score
+                )
+            }
+//        Toast.makeText(requireContext(), "${highProbabilitiesOutput.label} with ${highProbabilitiesOutput.score}%", Toast.LENGTH_LONG).show()
+
+        model.close()
+        return ArrayList(sortedOutput)
     }
 
     companion object {
