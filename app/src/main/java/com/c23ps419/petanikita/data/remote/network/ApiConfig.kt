@@ -32,7 +32,7 @@ class ApiConfig {
             }
 
             val retrofit = Retrofit.Builder()
-                .baseUrl(Endpoints.EMULATOR_URL)
+                .baseUrl(Endpoints.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(getInterceptor(token))
                 .build()
