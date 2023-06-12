@@ -1,9 +1,11 @@
 package com.c23ps419.petanikita.data.remote.response
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class UserInformationResponse(
     @field:SerializedName("data")
@@ -13,6 +15,7 @@ data class UserInformationResponse(
     val message: String? = null
 )
 
+@Parcelize
 @Entity(tableName = "user")
 data class User(
 
@@ -44,4 +47,4 @@ data class User(
     @field:ColumnInfo("phone")
     @field:SerializedName("phone")
     val phone: String? = null
-)
+):Parcelable

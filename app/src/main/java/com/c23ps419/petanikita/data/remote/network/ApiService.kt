@@ -35,4 +35,8 @@ interface ApiService {
     @Headers("Accept: application/json")
     @GET("auth/user")
     suspend fun userInfo(): UserInformationResponse
+
+    @Headers("Accept: application/json")
+    @GET("products")
+    suspend fun getAllProducts(): ProductResponse
 }

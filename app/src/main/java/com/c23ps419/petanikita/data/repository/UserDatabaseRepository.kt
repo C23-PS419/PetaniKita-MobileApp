@@ -10,6 +10,8 @@ import com.c23ps419.petanikita.data.local.roomdb.UserDao
 import com.c23ps419.petanikita.data.local.roomdb.UserDatabase
 import com.c23ps419.petanikita.data.remote.network.ApiService
 import com.c23ps419.petanikita.data.remote.response.LogoutResponse
+import com.c23ps419.petanikita.data.remote.response.Product
+import com.c23ps419.petanikita.data.remote.response.ProductResponse
 import com.c23ps419.petanikita.data.remote.response.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -63,6 +65,18 @@ class UserDatabaseRepository(application: Application, private val apiService: A
         try {
             val response = apiService.userLogout()
             emit(Result.Success(response))
+        } catch (e: Exception){
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun getAllProducts(): LiveData<Result<List<Product?>>> = liveData {
+        emit(Result.Loading)
+
+        try {
+            val response = apiService.getAllProducts()
+            val productList = response.data ?: emptyList()
+            emit(Result.Success(productList))
         } catch (e: Exception){
             emit(Result.Error(e.message.toString()))
         }

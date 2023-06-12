@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.c23ps419.petanikita.data.local.datastore.UserPreferences
 import com.c23ps419.petanikita.di.Injection
+import com.c23ps419.petanikita.ui.main.home.HomeViewModel
 import com.c23ps419.petanikita.ui.main.profile.ProfileViewModel
 
 @Suppress("UNCHECKED_CAST")
@@ -13,6 +14,9 @@ class ViewModelFactoryDatabase(private val userPreferences: UserPreferences, pri
         return when {
             modelClass.isAssignableFrom(ProfileViewModel::class.java) -> {
                 ProfileViewModel(Injection.provideUserDatabaseRepository(userPreferences, application)) as T
+            }
+            modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
+                HomeViewModel(Injection.provideUserDatabaseRepository(userPreferences, application)) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel Class")
         }
