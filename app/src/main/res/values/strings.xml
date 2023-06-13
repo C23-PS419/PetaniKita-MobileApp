@@ -37,7 +37,6 @@
     <string name="back_button">Back Button</string>
     <string name="ambil_gambar">Ambil Gambar</string>
     <string name="ambil_gambar_untuk_deteksi">Ambil Gambar untuk Deteksi</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="open_folder">Open Folder</string>
     <string name="open_camera">Open Camera</string>
     <string name="choose_image">Ambil gambar melalui kamera atau pilih dari galeri</string>
