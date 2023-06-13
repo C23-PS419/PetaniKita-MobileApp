@@ -1,5 +1,6 @@
 package com.c23ps419.petanikita.ui.detection.detectionresult
 
+import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
@@ -7,7 +8,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.c23ps419.petanikita.databinding.FragmentDetectionResultBinding
 import com.c23ps419.petanikita.ui.detection.Disease
 import java.io.File
@@ -42,16 +42,22 @@ class DetectionResultFragment : Fragment() {
         return detectionResultBinding?.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         imageFile?.let {image ->
             detectionResultBinding?.detectionImage?.setImageBitmap(BitmapFactory.decodeFile(image.path))
         }
 
-        diseaseArrayList?.let {
-            detectionResultBinding?.rvDetectionResult?.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            val adapter = DetectionResultAdapter(it)
-            detectionResultBinding?.rvDetectionResult?.adapter = adapter
+        diseaseArrayList?.let { disease ->
+            detectionResultBinding?.tvLabel1?.text = disease[0].label
+            detectionResultBinding?.tvProbability1?.text = disease[0].probability.times(100).toInt().toString() + "%"
+
+            detectionResultBinding?.tvLabel2?.text = disease[1].label
+            detectionResultBinding?.tvProbability2?.text = disease[1].probability.times(100).toInt().toString() + "%"
+
+            detectionResultBinding?.tvLabel3?.text = disease[2].label
+            detectionResultBinding?.tvProbability3?.text = disease[2].probability.times(100).toInt().toString() + "%"
         }
     }
 
