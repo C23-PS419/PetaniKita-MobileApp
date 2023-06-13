@@ -61,10 +61,13 @@ class ProductAdapter(private val listener: OnItemClickListener? = null) :
             val formattedPrice = product.price?.let { formatRupiah(it) }
             nameTextView.text = product.name
             priceTextView.text = formattedPrice
-//            Glide.with(itemView.context)
-//                .load(avatarImageView)
-//                .into(avatarImageView)
-            avatarImageView.setImageResource(R.drawable.bg_button)
+
+            val imageUrl = product.images?.get(0)
+
+            Glide.with(itemView.context)
+                .load(imageUrl)
+                .into(avatarImageView)
+
 
             itemView.setOnClickListener {
                 listener?.onItemClick(product)
@@ -103,38 +106,5 @@ class ProductAdapter(private val listener: OnItemClickListener? = null) :
         }
     }
 }
-
-//class ProductAdapter(private val products: List<Product>?, private val callback: (product: Product, titleView: View, priceView: View) -> Unit)
-//    : RecyclerView.Adapter<ProductsViewHolder>() {
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductsViewHolder {
-//        val view = ItemProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-//        return ProductsViewHolder(view)
-//    }
-//
-//    override fun onBindViewHolder(holder: ProductsViewHolder, position: Int) {
-//        val item = products?.get(position)
-//        item?.let { product ->
-//            holder.view.root.setOnClickListener {
-//                callback.invoke(
-//                    product,
-//                    holder.view.ivItemPhoto,
-//                    holder.view.tvItemName,
-//                )
-//            }
-//            holder.bind(product)
-//        }
-//    }
-//
-//    override fun getItemCount(): Int {
-//        return products?.size ?: 0
-//    }
-//}
-//
-//class ProductsViewHolder(val view: ItemProductBinding) : RecyclerView.ViewHolder(view.root) {
-//    fun bind(item: Product) {
-//        view.product = item
-//    }
-//}
 
 

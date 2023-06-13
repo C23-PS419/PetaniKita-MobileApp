@@ -25,18 +25,18 @@ class DetailProductActivity : AppCompatActivity() {
         @Suppress("DEPRECATION")
         val product = intent.getParcelableExtra<Product>("PRODUCT")
 
+        val formattedTimeAgo = formatTimeAgo(product?.createdAt ?: Timestamp(0))
+        val imageUrl = product?.images?.get(0)
+
 
         detailBinding?.tvDetailProductTitle?.text = product?.name
         detailBinding?.tvDetailProductStock?.text = "Stok : " + product?.stock.toString()
-//        binding?.let { image ->
-//            Glide.with(this)
-//                .load(story?.photoUrl)
-//                .into(image.ivDetailPhoto)
-//        }
-        detailBinding?.ivDetailProductPhoto?.setImageResource(R.drawable.baseline_person_24)
+        detailBinding?.let { image ->
+            Glide.with(this)
+                .load(imageUrl)
+                .into(image.ivDetailProductPhoto)
+        }
         detailBinding?.tvDetailProductPrice?.text = product?.price?.let { formatRupiah(it) }
-//        detailBinding?.tvDetailProductDescription?.text = product?.createdAt
-        val formattedTimeAgo = formatTimeAgo(product?.createdAt ?: Timestamp(0))
         detailBinding?.tvDetailProductCreated?.text = formattedTimeAgo
         detailBinding?.tvDetailProductDescription?.text = product?.description
         detailBinding?.tvDetailProductSeller?.text = product?.user?.name
@@ -55,7 +55,7 @@ private fun formatRupiah(price: Int): String {
     return currencyFormat.format(price)
 }
 
-fun formatTimeAgo(createdAt: Timestamp): String {
+private fun formatTimeAgo(createdAt: Timestamp): String {
     val currentTime = System.currentTimeMillis()
     val elapsedTime = currentTime - createdAt.time
 

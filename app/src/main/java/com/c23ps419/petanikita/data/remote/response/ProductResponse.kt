@@ -1,18 +1,23 @@
 package com.c23ps419.petanikita.data.remote.response
 
+import kotlinx.parcelize.Parcelize
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 import java.sql.Timestamp
 
+@Parcelize
 data class ProductResponse(
 
 	@field:SerializedName("data")
 	val data: List<Product?>? = null
-)
+) : Parcelable
+
 
 @Parcelize
 data class Product(
+
+	@field:SerializedName("images")
+	val images: List<String?>? = null,
 
 	@field:SerializedName("updated_at")
 	val updatedAt: String? = null,
@@ -37,4 +42,4 @@ data class Product(
 
 	@field:SerializedName("user")
 	val user: User? = null
-):Parcelable
+) : Parcelable
