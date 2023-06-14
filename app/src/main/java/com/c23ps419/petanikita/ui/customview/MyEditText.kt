@@ -4,8 +4,10 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
+import android.util.Patterns
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
@@ -52,7 +54,30 @@ class MyEditText : AppCompatEditText, View.OnTouchListener {
             }
 
             override fun afterTextChanged(s: Editable) {
-                // Do nothing
+                val text = s.toString()
+                val inputType = this@MyEditText.inputType
+
+                if(inputType == InputType.TYPE_CLASS_TEXT && text.isEmpty()){
+                    this@MyEditText.error = "Nama harus diisi"
+                    return
+                }
+
+                if(inputType == (InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS + InputType.TYPE_CLASS_TEXT) && !Patterns.EMAIL_ADDRESS.matcher(text).matches()) {
+                    this@MyEditText.error = "Email tidak valid"
+                    return
+                }
+
+                if(inputType == (InputType.TYPE_TEXT_VARIATION_PASSWORD + InputType.TYPE_CLASS_TEXT) && text.trim().length < 8){
+                    this@MyEditText.error = "Password harus lebih dari 8 karakter"
+                    return
+                }
+
+                if (inputType == (InputType.TYPE_CLASS_PHONE) && (text.trim().length < 10 || text.trim().length > 13)){
+                    this@MyEditText.error = "Nomor telepon tidak sesuai"
+                    return
+                }
+
+                this@MyEditText.error = null
             }
         })
     }

@@ -1,11 +1,14 @@
 package com.c23ps419.petanikita.ui.main.scan
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.c23ps419.petanikita.databinding.CardItemJenisTanamanBinding
 
-class JenisAdapter(private val listJenisTanaman: List<String>): RecyclerView.Adapter<JenisAdapter.ViewHolder>() {
+class JenisAdapter(private val listJenisTanaman: ArrayList<JenisTanaman>, private val listImplementedModel: List<String>): RecyclerView.Adapter<JenisAdapter.ViewHolder>() {
 
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -21,10 +24,18 @@ class JenisAdapter(private val listJenisTanaman: List<String>): RecyclerView.Ada
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val jenisTanaman = listJenisTanaman[position]
 
-        holder.binding.tvJenisTanaman.text = jenisTanaman
+        if (!listImplementedModel.contains(jenisTanaman.nama)){
+            holder.binding.cardViewJenisTanaman.foreground = ColorDrawable(Color.parseColor("#906F6F6F"))
+        }
+
+        holder.binding.tvJenisTanaman.text = jenisTanaman.nama
+
+        Glide.with(holder.itemView.context)
+            .load(jenisTanaman.image)
+            .into(holder.binding.imageJenisTanaman)
 
         holder.itemView.setOnClickListener {
-            onItemClickCallback.onItemClicked(listJenisTanaman[position])
+            onItemClickCallback.onItemClicked(listJenisTanaman[position].nama)
         }
     }
 

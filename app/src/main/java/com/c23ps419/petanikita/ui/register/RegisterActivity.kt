@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Patterns
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
@@ -66,6 +69,60 @@ class RegisterActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+
+        setMyButtonEnable()
+        registerBinding?.edRegisterName?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                setMyButtonEnable()
+            }
+            override fun afterTextChanged(s: Editable) {
+            }
+        })
+        registerBinding?.edRegisterEmail?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                setMyButtonEnable()
+            }
+            override fun afterTextChanged(s: Editable) {
+            }
+        })
+        registerBinding?.edRegisterPassword?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                setMyButtonEnable()
+            }
+            override fun afterTextChanged(s: Editable) {
+            }
+        })
+        registerBinding?.edRegisterPhone?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            }
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                setMyButtonEnable()
+            }
+            override fun afterTextChanged(s: Editable) {
+            }
+        })
+    }
+
+    private fun setMyButtonEnable() {
+        val name = registerBinding?.edRegisterName?.text?.toString()
+        val email = registerBinding?.edRegisterEmail?.text?.toString()
+        val password = registerBinding?.edRegisterPassword?.text?.toString()
+        val phone = registerBinding?.edRegisterPhone?.text?.toString()
+        registerBinding?.myButton?.isEnabled = isValidEmail(email) && (password?.length ?: 0) >= 8 && (name?.length ?: 0) > 0 && ((phone?.length ?: 0) >= 10 && (phone?.length ?: 0) <= 13)
+    }
+
+    private fun isValidEmail(email: String?): Boolean {
+        return if (email.isNullOrEmpty()) {
+            false
+        } else {
+            Patterns.EMAIL_ADDRESS.matcher(email).matches()
         }
     }
 
